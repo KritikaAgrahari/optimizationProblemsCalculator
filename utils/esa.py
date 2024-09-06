@@ -2,12 +2,12 @@ import numpy as np
 import sympy as sp
 import pandas as pd
 
-# Function to define the user input function with any number of variables
+# Function to define the user input function with any number of variables:
 def get_function(var_list):
     expression = input("Enter the function in terms of " + ", ".join(var_list) + ": ")
     return sp.sympify(expression)
 
-# Function to get user inputs for initial points and increments
+# Function to get user inputs for initial points and increments:
 def get_initial_values(var_list):
     initial_values = []
     increments = []
@@ -16,11 +16,11 @@ def get_initial_values(var_list):
         increments.append(float(input(f"Enter the increment for {var}: ")))
     return np.array(initial_values), np.array(increments)
 
-# Function to calculate the function value at a given point
+# Function to calculate the function value at a given point:
 def calc_function_value(f, point, var_list):
     return float(f.subs({var: val for var, val in zip(var_list, point)}))
 
-# User inputs
+# User inputs:
 num_vars = int(input("Enter the number of variables: "))
 var_list = [sp.symbols(f'x{i+1}') for i in range(num_vars)]
 f = get_function([str(var) for var in var_list])
@@ -32,7 +32,7 @@ max_iter = int(input("Enter the maximum number of iterations: "))
 normDel = np.linalg.norm(Del)
 rsl = []
 
-# Iteration process
+# Iteration process:
 for i in range(max_iter):
     fx0 = calc_function_value(f, x0, var_list)
     increment = Del / 2
@@ -62,7 +62,7 @@ for i in range(max_iter):
     if normDel <= ep:
         break
 
-# Table display
+# Table display:
 columns = ['Iteration', 'x0'] + [f'Neighbor_{j+1}' for j in range(num_vars)] + ['fx0'] + [f'f(Neighbor_{j+1})' for j in range(num_vars)] + ['xmin']
 Resl = pd.DataFrame(rsl, columns=columns)
 print(Resl)
